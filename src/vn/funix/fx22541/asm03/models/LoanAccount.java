@@ -10,7 +10,7 @@ public class LoanAccount extends Account implements ReportService, Withdraw, ITr
 	private final static double LOAN_ACCOUNT_WITHDRAW_PREMIUM_FEE = 0.01;
 	private final static double LOAN_ACCOUNT_MAX_BALANCE = 100000000.00;
 
-	private final List<Transaction> transactions;
+	private final List<ITransaction> transactions;
 
 	public LoanAccount(String accountNumber, double initialAmount) {
 		if (initialAmount > LOAN_ACCOUNT_MAX_BALANCE || initialAmount < 0) {
@@ -35,10 +35,6 @@ public class LoanAccount extends Account implements ReportService, Withdraw, ITr
 		}
 	}
 
-		@Override
-		public List<Transaction> getTransactions() {
-				return transactions;
-		}
 
 	private String getTitle() {
 		return "BIEN LAI GIAO DICH LOAN";
@@ -80,5 +76,9 @@ public class LoanAccount extends Account implements ReportService, Withdraw, ITr
 	@Override
 	public boolean isAccepted(double amount) {
 		return !(amount < 0) && (amount <= LOAN_ACCOUNT_MAX_BALANCE) & (amount % 10000 == 0) && !((getAccountBalance() - amount - getTransactionFee(amount)) < 50000);
+	}
+
+	public List<Transaction> getTransactions() {
+		return null;
 	}
 }

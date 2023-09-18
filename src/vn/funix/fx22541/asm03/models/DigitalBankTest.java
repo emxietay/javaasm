@@ -37,8 +37,8 @@ class DigitalBankTest {
 
 	@Test
 	void withdraw() {
-		DigitalCustomer customer = activeBank.getCustomerById(CUSTOMER_ID);
-		customer.withdraw("123456", 1000000);
+		Customer customer = activeBank.getCustomerById(CUSTOMER_ID);
+		activeBank.withdraw((DigitalCustomer) customer, "123456", 1000000);
 		assertEquals(3000000, customer.getTotalBalanceAccount());
 	}
 
