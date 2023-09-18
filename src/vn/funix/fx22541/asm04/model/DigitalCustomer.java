@@ -18,6 +18,10 @@ public class DigitalCustomer extends Customer {
 
     }
 
+    public DigitalCustomer(List<String> strings) {
+        super(strings);
+    }
+
     public void withdraw(Scanner scanner) {
         List<Account> accounts = getAccounts();
         if (!accounts.isEmpty()) {

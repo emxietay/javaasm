@@ -39,7 +39,7 @@ public class Transaction implements ITransaction, Serializable {
   @Override
   public String toString() {
     return String.format(
-            "[GD] %7s | %,17.2f đ | %15s", accountNumber, amount, time);
+            "[GD] %7s | %8s | %,17.2f đ | %15s", accountNumber, transactionType, amount, time);
   }
 
 }

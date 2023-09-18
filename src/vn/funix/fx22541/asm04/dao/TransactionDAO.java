@@ -12,4 +12,10 @@ public class TransactionDAO {
     public static void save(List<Transaction> transactions) {
         BinaryFileService.writeFile(TRANSACTIONS_FILE_NAME, transactions);
     }
+    public static List<Transaction> list() {
+    return BinaryFileService.readFile(TRANSACTIONS_FILE_NAME);
+    }
+
+
+
 }

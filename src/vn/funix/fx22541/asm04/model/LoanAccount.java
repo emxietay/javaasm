@@ -43,8 +43,8 @@ public class LoanAccount extends Account implements Report, Withdraw, Serializab
 	private LoanAccount() {
 	}
 
-	public Customer getCustomer() {
-		return this.customer;
+	public DigitalCustomer getCustomer() {
+		return (DigitalCustomer) this.customer;
 	}
 
 	@Override

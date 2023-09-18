@@ -26,8 +26,14 @@ public class Asm04 {
 //        activeBank.save();
         activeBank.importCustomers();
 //        activeBank.save();
+        activeBank.addAccount();
+//        activeBank.addAccount();
         activeBank.showCustomer();
+        activeBank.transfer();
+        activeBank.showTransactions();
+
 //        activeBank.list();
+//        activeBank.
 
 
 //        Path path = Path.of(CUSTOMER_FILE);

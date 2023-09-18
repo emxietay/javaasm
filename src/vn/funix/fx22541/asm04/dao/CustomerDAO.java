@@ -1,6 +1,6 @@
 package vn.funix.fx22541.asm04.dao;
 
-import vn.funix.fx22541.asm04.model.Customer;
+import vn.funix.fx22541.asm04.model.DigitalCustomer;
 import vn.funix.fx22541.asm04.service.BinaryFileService;
 import vn.funix.fx22541.asm04.service.TextFileService;
 
@@ -14,34 +14,34 @@ public class CustomerDAO {
     }
 
     //    private List<DigitalCustomer> customers;
-//    public static List<Customer> customers = readFile();
+//    public static List<DigitalCustomer> customers = readFile();
     private static final String DAT_FILE_PATH = "src/vn/funix/fx22541/asm04/store/customers.dat";
     private static final String TEXT_FILE_PATH = "src/vn/funix/fx22541/asm04/store/customers.txt";
 
-    static public List<Customer> readFile() {
+    static public List<DigitalCustomer> readFile() {
         return BinaryFileService.readFile(DAT_FILE_PATH);
     }
 
-    static public void save(List<Customer> customers) {
+    static public void save(List<DigitalCustomer> customers) {
         BinaryFileService.writeFile(DAT_FILE_PATH, customers);
     }
 
-//    static public List<Customer> list() {
+//    static public List<DigitalCustomer> list() {
 //        customers = readFile();
 //        return customers;
 //    }
 
-    public static List<Customer> importCustomers() {
-        List<Customer> datFileList = readFile();
+    public static List<DigitalCustomer> importCustomers() {
+        List<DigitalCustomer> datFileList = readFile();
 
         List<List<String>> listString = TextFileService.readFile(TEXT_FILE_PATH);
-        List<Customer> listFromTextFile = listString.stream().map(Customer::new).toList();
+        List<DigitalCustomer> listFromTextFile = listString.stream().map(DigitalCustomer::new).toList();
 
         listFromTextFile.forEach(e -> {
             if (datFileList.contains(e)) {
-                System.out.printf("Customer existed: %-18s => cannot be imported!%n", e.getName());
+                System.out.printf("DigitalCustomer existed: %-18s => cannot be imported!%n", e.getName());
             } else {
-                System.out.printf("Importing new Customer: %-18s  (id: %s)%n", e.getName(), e.getId());
+                System.out.printf("Importing new DigitalCustomer: %-18s  (id: %s)%n", e.getName(), e.getId());
                 datFileList.add(e);
             }
         });

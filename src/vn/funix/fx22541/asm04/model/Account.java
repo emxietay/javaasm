@@ -18,7 +18,7 @@ public class Account implements Serializable {
     private String customerId;
 
     protected String accountNumber;
-    double balance;
+    protected double balance;
 
     protected List<Transaction> transactions = new ArrayList<>();
 
@@ -75,8 +75,8 @@ public class Account implements Serializable {
         return balance >= 10000000;
     }
 
-    public Customer getCustomer() {
-        Optional<Customer> foundCustomer = CustomerDAO.readFile().stream().filter(e -> e.getId().equals(customerId)).findFirst();
+    public DigitalCustomer getCustomer() {
+        Optional<DigitalCustomer> foundCustomer = CustomerDAO.readFile().stream().filter(e -> e.getId().equals(customerId)).findFirst();
         return foundCustomer.orElse(null);
     }
 
