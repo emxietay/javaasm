@@ -3,9 +3,9 @@ package vn.funix.fx22541.asm02.models;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Customer extends User {
+public class  Customer extends User {
 
-    protected final List<Account> accounts;
+    protected  final  List<Account> accounts;
 
     public Customer(String name, String customerId) {
         super(name, customerId);

@@ -18,10 +18,10 @@ public class DigitalBank extends Bank {
   }
 
   @Override
-  public DigitalCustomer getCustomerById(String customerId) {
+  public Customer getCustomerById(String customerId) {
     for (Customer customer : this.customers) {
-      if (customer.getCustomerId().equals(customerId) && customer instanceof DigitalCustomer) {
-        return (DigitalCustomer) customer;
+      if (customer.getCustomerId().equals(customerId)) {
+        return customer;
       }
     }
     return null;
@@ -34,36 +34,36 @@ public class DigitalBank extends Bank {
   }
 
   public void withdraw(String customerId, String accountNumber, double amount) {
-    DigitalCustomer foundCustomer = getCustomerById(customerId);
-    if (foundCustomer != null) {
-      foundCustomer.withdraw(accountNumber, amount);
+    Customer foundCustomer = getCustomerById(customerId);
+    if (foundCustomer instanceof Withdraw e) {
+      e.withdraw(amount);
       return;
     }
     System.out.println("Customer not found.");
   }
 
   public void addLoanAccount(String customerId, String accountNumber, double initialAmount) {
-    DigitalCustomer customer = getCustomerById(customerId);
-    if (customer != null) {
-      customer.addLoanAccount(accountNumber, initialAmount);
+    Customer customer = getCustomerById(customerId);
+    if (customer instanceof DigitalCustomer e) {
+      e.addLoanAccount(accountNumber, initialAmount);
     }
   }
 
   public void addSavingsAccount(String customerId, String accountNumber, double initialAmount) {
 
 
-    DigitalCustomer customer = getCustomerById(customerId);
-    if (customer != null) {
-      customer.addSavingsAccount(accountNumber, initialAmount);
+    Customer customer = getCustomerById(customerId);
+    if (customer instanceof DigitalCustomer e) {
+      e.addSavingsAccount(accountNumber, initialAmount);
 
     }
   }
 
   public void showTransactions(String customerId) {
-    DigitalCustomer customer = getCustomerById(customerId);
-    if (customer != null) {
-      customer.displayInformation();
-     customer.printTransactions();
+    Customer customer = getCustomerById(customerId);
+    if (customer instanceof DigitalCustomer e) {
+      e.displayInformation();
+     e.printTransactions();
     }
   }
 

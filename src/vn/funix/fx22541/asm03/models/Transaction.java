@@ -2,7 +2,7 @@ package vn.funix.fx22541.asm03.models;
 
 import java.util.UUID;
 
-public class Transaction {
+public class Transaction implements ITransaction {
   private final String accountNumber;
   private final double amount;
   private final String time;
@@ -25,5 +25,6 @@ public class Transaction {
     return String.format(
             "[GD] %7s | %,17.2f đ | %15s", accountNumber, amount, time);
   }
+
 }
 
