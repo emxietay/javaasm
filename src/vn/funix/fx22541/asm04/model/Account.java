@@ -1,5 +1,7 @@
 package vn.funix.fx22541.asm04.model;
 
+import vn.funix.fx22541.asm03.models.LoanAccount;
+import vn.funix.fx22541.asm03.models.SavingsAccount;
 import vn.funix.fx22541.asm04.dao.CustomerDAO;
 import vn.funix.fx22541.asm04.exception.InitialAccountBalanceNotValidException;
 
@@ -76,8 +78,7 @@ public class Account implements Serializable {
     }
 
     public DigitalCustomer getCustomer() {
-        Optional<DigitalCustomer> foundCustomer = CustomerDAO.readFile().stream().filter(e -> e.getId().equals(customerId)).findFirst();
-        return foundCustomer.orElse(null);
+        return CustomerDAO.readFile().stream().filter(e -> e.getId().equals(customerId)).findFirst().orElse(null);
     }
 
     @Override
@@ -89,5 +90,10 @@ public class Account implements Serializable {
                 ", transactions=" + transactions +
                 '}';
     }
+
+    public void printTransactions() {
+
+    }
+
 
 }

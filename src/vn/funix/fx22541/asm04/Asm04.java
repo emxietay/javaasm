@@ -26,12 +26,13 @@ public class Asm04 {
 //        activeBank.save();
         activeBank.importCustomers();
 //        activeBank.save();
-        activeBank.addAccount();
+//        activeBank.addAccount();
 //        activeBank.addAccount();
         activeBank.showCustomer();
-        activeBank.transfer();
-        activeBank.showTransactions();
 
+        //        activeBank.transfer();
+        activeBank.showTransactions();
+        activeBank.showAccounts();
 //        activeBank.list();
 //        activeBank.
 

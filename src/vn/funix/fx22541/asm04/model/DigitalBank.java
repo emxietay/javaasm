@@ -19,7 +19,6 @@ public class DigitalBank extends Bank {
   public DigitalBank(String name, String id) {
     super(name, id);
 //    customers = new ArrayList<DigitalCustomer>();
-    accounts = new ArrayList<>();
   }
 
 //    public DigitalBank() {
@@ -99,9 +98,9 @@ public class DigitalBank extends Bank {
     boolean validated = Validator.validateSavingsAccount(accountNumber, initialAmount);
     DigitalCustomer customer = (DigitalCustomer) getCustomerById(customerId);
     if (customer != null && validated && !accounts.contains(accountNumber)) {
-      SavingsAccount.createAccount(accountNumber, initialAmount, customer);
+     accounts.add(SavingsAccount.createAccount(accountNumber, initialAmount, customer));
     } else {
-      System.out.println("Account does not exist!! ");
+      System.out.println("Customer does not exist!! ");
     }
   }
 
@@ -226,5 +225,9 @@ public class DigitalBank extends Bank {
 
   public void showTransactions() {
     TransactionDAO.list().forEach(System.out::println);
+  }
+
+  public void showAccounts() {
+    accounts.forEach(System.out::println);
   }
 }

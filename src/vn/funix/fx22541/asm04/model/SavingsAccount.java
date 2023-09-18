@@ -1,6 +1,5 @@
 package vn.funix.fx22541.asm04.model;
 
-import vn.funix.fx22541.asm04.dao.AccountDAO;
 import vn.funix.fx22541.asm04.dao.TransactionDAO;
 import vn.funix.fx22541.asm04.service.*;
 
@@ -36,6 +35,10 @@ public class SavingsAccount extends Account implements Withdraw, Report, Seriali
 
   public List<Transaction> getTransactions() {
     return transactions;
+  }
+
+  public void printTransactions() {
+    transactions.forEach(System.out::println);
   }
 
   @Override
