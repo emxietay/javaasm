@@ -18,10 +18,10 @@ public class Validator {
     }
 
     public static boolean validateCustomerId(String id) {
-        if (!id.matches(CUSTOMER_ID_REGEX)) {
-            throw new CustomerIdNotValidException("Wrong ID, please enter 12 digits ID");
-        } else {
+        if (id.matches(CUSTOMER_ID_REGEX)) {
             return true;
+        } else {
+            throw new CustomerIdNotValidException("Wrong ID, please enter 12 digits ID");
         }
     }
 

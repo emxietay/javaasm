@@ -48,25 +48,6 @@ public class Asm04 {
 
     }
 
-    private static void createCustomer() {
-        while (true) {
-            System.out.println("123".matches("\\d{3}") + "   123.matches");
-            System.out.print("Enter id: ");
-            String id = new Scanner(System.in).next().toLowerCase();
-            String name = new Scanner(System.in).next();
-            if (Objects.equals(id, "q")) {
-                System.out.println("You want to quit!");
-                break;
-            }
-            try {
-//                var customer = new DigitalCustomer<>(id, name);
-                activeBank.addCustomer(name, id);
-                break;
-            } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage() + ", re-enter or press q for quit:");
-            }
-        }
-    }
 
     private static void printMenu() {
         String textBlock = """                

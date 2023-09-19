@@ -3,6 +3,7 @@ package vn.funix.fx22541.asm04.model;
 import vn.funix.fx22541.asm04.dao.AccountDAO;
 import vn.funix.fx22541.asm04.dao.CustomerDAO;
 import vn.funix.fx22541.asm04.dao.TransactionDAO;
+import vn.funix.fx22541.asm04.exception.CustomerIdNotValidException;
 import vn.funix.fx22541.asm04.service.Validator;
 
 import java.util.List;
@@ -25,20 +26,50 @@ public class DigitalBank extends Bank {
 //    AccountDAO.list().forEach(System.out::println);
     namBank.showCustomers();
 //    namBank.withdraw(new Scanner(System.in), "001092009430");
-    namBank.showTransactions();
-    namBank.showTransactions("001092009430");
+//    namBank.showTransactions();
+//    namBank.showTransactions("001092009430");
+    namBank.addNewCustomer();
   }
 
 
-  public void addCustomer(String name, String customerId) {
-    if (Validator.validateCustomerId(customerId)) {
-      if (getCustomerById(customerId) == null) {
-        customers.add(new DigitalCustomer(name, customerId));
-      }
-    } else {
-      System.out.println("Customer existed  .... " + name);
-    }
+  public void addNewCustomer() {
+    while (true) {
+      try {
 
+        System.out.print("Enter Customer Name: ");
+        String name = scanner.nextLine();
+        System.out.printf("Enter Customer ID: ");
+        String id = scanner.nextLine();
+        if (Validator.validateCustomerId(id)) {
+          addCustomer(id, name);
+          break;
+        }
+      } catch (CustomerIdNotValidException e) {
+        System.out.println(e.getMessage());
+      }
+    }
+  }
+
+  private void addCustomer(String customerId, String name) {
+    List<Customer> list = CustomerDAO.list();
+    while (true) {
+      try {
+        if (Validator.validateCustomerId(customerId)) {
+          if (getCustomerById(customerId) == null) {
+            DigitalCustomer customer = new DigitalCustomer(customerId, name);
+            list.add(customer);
+            CustomerDAO.update(customer);
+            break;
+          }
+        }
+      } catch (CustomerIdNotValidException e) {
+        System.out.println(e.getMessage());
+      }
+//    else {
+//      System.out.println("Customer existed  .... " + name);
+//    }
+
+    }
   }
 
   public void addCustomer(Customer customer) {
