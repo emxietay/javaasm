@@ -11,7 +11,7 @@ public class Utils {
   public static String getDateTime() {
     LocalDateTime localDateTime = LocalDateTime.now();
     DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-    return (localDateTime.format(dateTimeFormatter));
+    return localDateTime.format(dateTimeFormatter);
   }
 
   public static String formatBalance(double amount) {

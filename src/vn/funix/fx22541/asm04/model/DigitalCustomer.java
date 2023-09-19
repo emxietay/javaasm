@@ -5,6 +5,7 @@ import vn.funix.fx22541.asm04.dao.AccountDAO;
 import vn.funix.fx22541.asm04.service.Validator;
 
 import java.io.Serial;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -13,8 +14,8 @@ public class DigitalCustomer extends Customer {
     @Serial
     private static final long serialVersionUID = 3L;
 
-    public DigitalCustomer(String name, String customerId) {
-        super(name, customerId);
+    public DigitalCustomer(String customerId, String name) {
+        super(customerId, name);
 
     }
 
@@ -52,37 +53,25 @@ public class DigitalCustomer extends Customer {
     }
 
     public void displayInformation() {
+        List<Account> accounts = getAccounts();
         String isPremium = "Normal";
         int order = 1;
         if (isCustomerPremium()) {
             isPremium = "Premium";
         }
-        System.out.println("+---------+-----------------------------------+---------------------+");
-        System.out.printf("%12s |%22s| %8s | %,18.2fđ%n", getId(), getName().toUpperCase(), isPremium, getTotalBalanceAccount());
+        System.out.println("+------------+--------------------------------------------------+------------+");
+        System.out.printf("%12s |%22s| %8s | %,26.2fVND%n", getId(), getName().toUpperCase(), isPremium, getTotalBalance());
         for (Account account : accounts) {
-            System.out.printf("%d%11s |  %20s|  %,28.2fđ%n", order++, account.getAccountNumber(), account instanceof LoanAccount ? "LOAN" : "SAVINGS", account.getAccountBalance());
+            System.out.printf("%d%11s |  %20s|  %,36.2fVND%n", order++, account.getAccountNumber(), account instanceof LoanAccount ? "LOAN" : "SAVINGS", account.getAccountBalance());
         }
-        System.out.println("+---------+-----------------------------------+---------------------+");
+        System.out.println("+------------+--------------------------------------------------+------------+");
     }
 
-
-    private double getTotalBalanceAccount() {
-        double sum = 0;
-        for (Account account : accounts) {
-            sum += account.getAccountBalance();
-        }
-        return sum;
+    private double getTotalBalance() {
+        List<Account> accounts = getAccounts();
+        return accounts.stream().mapToDouble(e -> e.getAccountBalance()).sum();
     }
 
-    public boolean addLoanAccount(String accountNumber, double amount) {
-        if (!isAccountExisted(accountNumber)) {
-            accounts.add(LoanAccount.createAccount(accountNumber, amount, this));
-            return true;
-        } else {
-            System.out.println("LoanAccount existed: " + accountNumber);
-            return false;
-        }
-    }
 
     public Account getAccountByAccountNumber(List<Account> accounts, String accountNumber) {
         for (Account account : accounts) {
@@ -93,31 +82,28 @@ public class DigitalCustomer extends Customer {
         return null;
     }
 
-    public boolean addSavingsAccount(String accountNumber, double amount) {
-        boolean isAccountExisted = accounts.stream().anyMatch(e -> e.getAccountNumber().equals(accountNumber));
-        if (!isAccountExisted) {
-            accounts.add(SavingsAccount.createAccount(accountNumber, amount, this));
-            return true;
-        } else {
-            System.out.println("Savings Account existed: " + accountNumber);
-            return false;
-        }
-
-    }
 
     public void printTransactions(List<Transaction> transactions) {
     }
 
     public void printTransactions() {
+        List<Account> accounts = getAccounts();
+        accounts.forEach(e -> e.showtransactions());
     }
 
 
     public List<Account> getAccounts() {
-        return AccountDAO.list()
-                        .stream()
-                        .filter(e -> getId().equals(e.getCustomer()
-                        .getId()))
-                        .toList();
+        List<Account> list = new ArrayList<>();
+        try {
+            list = AccountDAO.list()
+                    .stream()
+                    .filter(e -> getId().equals(e.getCustomer()
+                            .getId()))
+                    .toList();
+        } catch (NullPointerException e) {
+            System.out.println("No customer found!");
+        }
+        return list;
     }
 
     @Override
@@ -130,8 +116,4 @@ public class DigitalCustomer extends Customer {
         return super.equals(obj);
     }
 
-    //    @Override
-    public void transfer(Account account, double amount) {
-
-    }
 }

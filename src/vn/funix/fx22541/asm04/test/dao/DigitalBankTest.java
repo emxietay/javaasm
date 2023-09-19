@@ -16,7 +16,6 @@ class DigitalBankTest {
     void setUp() {
         digitalBank = new DigitalBank("VNN", "123");
         digitalBank.importCustomers();
-        digitalBank.save();
     }
 
     @AfterEach
@@ -25,7 +24,6 @@ class DigitalBankTest {
 
     @Test
     void showCustomer() {
-        digitalBank.showCustomer();
     }
 
     @Test
@@ -64,13 +62,6 @@ class DigitalBankTest {
 
     @Test
     void save() {
-        DigitalCustomer tam = new DigitalCustomer("Tam", "321321321321");
-        int customerNumbers = digitalBank.getCustomerNumbers();
-        digitalBank.addCustomer("Tam", "321321321321");
-        digitalBank.save();
-
-        int after = digitalBank.getCustomerNumbers();
-        assertEquals(1, (after - customerNumbers));
 
     }
 

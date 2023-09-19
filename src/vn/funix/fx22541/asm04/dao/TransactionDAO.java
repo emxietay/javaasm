@@ -7,7 +7,7 @@ import java.util.List;
 
 public class TransactionDAO {
 
-    public static final String TRANSACTIONS_FILE_NAME = "src/vn/funix/fx22541/asm04/store/accounts.dat";
+    public static final String TRANSACTIONS_FILE_NAME = "src/vn/funix/fx22541/asm04/store/transactions.dat";
 
     public static void save(List<Transaction> transactions) {
         BinaryFileService.writeFile(TRANSACTIONS_FILE_NAME, transactions);
@@ -16,6 +16,9 @@ public class TransactionDAO {
     return BinaryFileService.readFile(TRANSACTIONS_FILE_NAME);
     }
 
-
-
+  public static void update(Transaction transaction) {
+    List<Transaction> list = list();
+    list.add(transaction);
+    save(list);
+  }
 }

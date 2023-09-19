@@ -54,4 +54,7 @@ public class AccountDAO <T extends Account> {
         BinaryFileService.writeFile(ACCOUNT_FILE_PATH, accounts);
     }
 
+    public static <T extends Account> T getAccountById(String accountNumber) {
+        return (T) list().stream().filter(e -> e.getAccountNumber().equals(accountNumber)).findFirst().orElse(null);
+    }
 }

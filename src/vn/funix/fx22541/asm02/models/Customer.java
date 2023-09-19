@@ -1,5 +1,8 @@
 package vn.funix.fx22541.asm02.models;
 
+import vn.funix.fx22541.asm04.dao.AccountDAO;
+import vn.funix.fx22541.asm04.dao.CustomerDAO;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +13,7 @@ public class  Customer extends User {
     public Customer(String name, String customerId) {
         super(name, customerId);
         this.accounts = new ArrayList<>();
+        CustomerDAO.update(this);
     }
 
     public boolean isCustomerPremium() {
@@ -34,6 +38,7 @@ public class  Customer extends User {
 
     public double getTotalBalanceAccount() {
         double totalBalance = 0;
+
         for (Account acc :
                 accounts) {
             totalBalance += acc.getAccountBalance();

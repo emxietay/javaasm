@@ -28,7 +28,6 @@ public class Asm04 {
 //        activeBank.save();
 //        activeBank.addAccount();
 //        activeBank.addAccount();
-        activeBank.showCustomer();
 
         //        activeBank.transfer();
         activeBank.showTransactions();
@@ -62,7 +61,6 @@ public class Asm04 {
             try {
 //                var customer = new DigitalCustomer<>(id, name);
                 activeBank.addCustomer(name, id);
-                activeBank.save();
                 break;
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage() + ", re-enter or press q for quit:");

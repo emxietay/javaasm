@@ -5,46 +5,38 @@ import vn.funix.fx22541.asm04.dao.CustomerDAO;
 import vn.funix.fx22541.asm04.dao.TransactionDAO;
 import vn.funix.fx22541.asm04.service.Validator;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class DigitalBank extends Bank {
   private final Scanner scanner = new Scanner(System.in);
-  private List<DigitalCustomer> customers = CustomerDAO.readFile();
+  private List<DigitalCustomer> customers = CustomerDAO.list();
   ;
   private List<Account> accounts = AccountDAO.list();
-//    private static final String CUSTOMER_FILE = "src/vn/funix/fx22541/asm04/store/customers.txt";
+  private List<Transaction> transactions = TransactionDAO.list();
 
   public DigitalBank(String name, String id) {
     super(name, id);
-//    customers = new ArrayList<DigitalCustomer>();
   }
 
-//    public DigitalBank() {
-//        super();
-//        customers = new ArrayList<>();
-//    }
+  public static void main(String[] args) {
 
-
-  public void showCustomer() {
-    list();
+    DigitalBank namBank = new DigitalBank("NAm", "123");
+//    AccountDAO.list().forEach(System.out::println);
+    namBank.showCustomers();
+//    namBank.withdraw(new Scanner(System.in), "001092009430");
+    namBank.showTransactions();
+    namBank.showTransactions("001092009430");
   }
 
-  public void addCustomer(String name, String customerId, double initialAmount) {
-    if (getCustomerById(customerId) == null) {
-      customers.add(new DigitalCustomer(name, customerId));
-    } else {
-      System.out.println("Account existed  .... " + name);
-    }
-
-  }
 
   public void addCustomer(String name, String customerId) {
-    if (getCustomerById(customerId) == null) {
-      customers.add(new DigitalCustomer(name, customerId));
+    if (Validator.validateCustomerId(customerId)) {
+      if (getCustomerById(customerId) == null) {
+        customers.add(new DigitalCustomer(name, customerId));
+      }
     } else {
-      System.out.println("Account existed  .... " + name);
+      System.out.println("Customer existed  .... " + name);
     }
 
   }
@@ -67,16 +59,11 @@ public class DigitalBank extends Bank {
     return null;
   }
 
-  public void withdraw(Customer customer, String accountNumber, double amount) {
-    if (customers.contains(customer)) {
-      customer.withdraw(accountNumber, amount);
-    }
-  }
 
-  public void withdraw(String customerId, String accountNumber, double amount) {
+  public void withdraw(Scanner scanner, String customerId) {
     Customer foundCustomer;
-    if ((foundCustomer = getCustomerById(customerId)) != null) {
-      foundCustomer.withdraw(accountNumber, amount);
+    if ((foundCustomer = getCustomerById(customerId)) instanceof DigitalCustomer e) {
+      e.withdraw(scanner);
       return;
     }
     System.out.println("Customer not found: " + customerId);
@@ -84,74 +71,62 @@ public class DigitalBank extends Bank {
 
   public void addLoanAccount(String customerId, String accountNumber, double initialAmount) {
 
-//        isAccountExisted()
     boolean validated = Validator.validateLoanAccount(accountNumber, initialAmount);
     Customer customer = getCustomerById(customerId);
     if (customer != null && validated && !accounts.contains(accountNumber)) {
-      LoanAccount.createAccount(accountNumber, initialAmount, customer);
+      LoanAccount loanAccount = new LoanAccount(customerId, accountNumber, initialAmount);
     } else {
       System.out.println("Account does not exist!.");
     }
   }
 
-  public void addSavingsAccount(String customerId, String accountNumber, double initialAmount) {
-    boolean validated = Validator.validateSavingsAccount(accountNumber, initialAmount);
-    DigitalCustomer customer = (DigitalCustomer) getCustomerById(customerId);
-    if (customer != null && validated && !accounts.contains(accountNumber)) {
-     accounts.add(SavingsAccount.createAccount(accountNumber, initialAmount, customer));
-    } else {
-      System.out.println("Customer does not exist!! ");
-    }
-  }
 
-
-  public void addAccount() {
-    boolean stop = false;
-    while (!stop) {
-      System.out.print("Enter Customer ID: ");
-      String inputId = scanner.nextLine();
-      DigitalCustomer customer = getCustomerById(inputId);
-      if (customer == null) {
-        System.out.printf("Cannot find customer with id: %s, please select other options %n", inputId);
-        stop = true;
-      } else {
-        while (true) {
-          System.out.print("Enter account number (6 digits) : ");
-          String inputAccountNumber = scanner.nextLine();
-          if (!inputAccountNumber.matches(Validator.ACC_NO_REGEX)) {
-            continue;
-          }
-          if (customer.isAccountExisted(inputAccountNumber)) {
-            System.out.println("Account existed");
-            continue;
-          } else {
-            while (true) {
-              double inputAmount = -1;
-              try {
-
-                System.out.print("Enter initial amount (at least 50.000VND): ");
-                inputAmount = Double.parseDouble(scanner.nextLine());
-              } catch (NumberFormatException e) {
-                System.out.println("\nWrong number!\n");
-              }
-              if (inputAmount < 50_000d) {
-                continue;
-              } else {
-                customer.addSavingsAccount(inputAccountNumber, inputAmount);
-                accounts.add(new SavingsAccount(inputAccountNumber, inputAmount, customer));
-                System.out.println("Savings account being created successfully");
-                stop = true;
-              }
-              break;
-            }
-          }
-          break;
-        }
-      }
-    }
-
-  }
-
+//  public void addAccount() {
+//    boolean stop = false;
+//    while (!stop) {
+//      System.out.print("Enter Customer ID: ");
+//      String inputId = scanner.nextLine();
+//      DigitalCustomer customer = getCustomerById(inputId);
+//      if (customer == null) {
+//        System.out.printf("Cannot find customer with id: %s, please select other options %n", inputId);
+//        stop = true;
+//      } else {
+//        while (true) {
+//          System.out.print("Enter account number (6 digits) : ");
+//          String inputAccountNumber = scanner.nextLine();
+//          if (!inputAccountNumber.matches(Validator.ACC_NO_REGEX)) {
+//            continue;
+//          }
+//          if (customer.isAccountExisted(inputAccountNumber)) {
+//            System.out.println("Account existed");
+//            continue;
+//          } else {
+//            while (true) {
+//              double inputAmount = -1;
+//              try {
+//
+//                System.out.print("Enter initial amount (at least 50.000VND): ");
+//                inputAmount = Double.parseDouble(scanner.nextLine());
+//              } catch (NumberFormatException e) {
+//                System.out.println("\nWrong number!\n");
+//              }
+//              if (inputAmount < 50_000d) {
+//                continue;
+//              } else {
+//                customer.addSavingsAccount(inputAccountNumber, inputAmount);
+//                accounts.add(new SavingsAccount(customer.getId(),));
+//                System.out.println("Savings account being created successfully");
+//                stop = true;
+//              }
+//              break;
+//            }
+//          }
+//          break;
+//        }
+//      }
+//    }
+//
+//  }
 
   public void showTransactions(String customerId) {
     Customer customer = getCustomerById(customerId);
@@ -161,38 +136,27 @@ public class DigitalBank extends Bank {
     }
   }
 
-  public boolean isAccountExisted(String customerId, String accountNumber) {
-    Customer customer = getCustomerById(customerId);
-    return (customers.contains(customer) && customer.isAccountExisted(accountNumber));
-  }
-
-  public boolean isAccountExisted(String accountNumber) {
-    return accounts.stream().anyMatch(account -> account.getAccountNumber().equals(accountNumber));
-  }
-
-
-  public void save() {
-    CustomerDAO.save(customers);
-  }
 
   public void importCustomers() {
-    List<DigitalCustomer> list = CustomerDAO.readFile();
+    List<DigitalCustomer> list = CustomerDAO.list();
     var customerInTextFile = CustomerDAO.importCustomers();
-//        customerInTextFile.stream().filter(e -> !list.contains(e)).forEach(list::add);
-
-
   }
 
-  public void list() {
-//    customers = CustomerDAO.readFile();
-    customers.forEach(System.out::println);
+  public void showCustomers() {
+    List<Customer> customerList = CustomerDAO.list();
+    if (customerList == null) {
+      System.out.println("Can not find any customer / Customer list is empty");
+    } else {
+      customerList.forEach(Customer::displayInformation);
+    }
   }
+
 
   public int getCustomerNumbers() {
     return customers.size();
   }
 
-  public void transfer() {
+  public <T extends Account> void transfer() {
     while (true) {
       System.out.print("Enter account number: ");
       String inputAccount = scanner.nextLine();
@@ -210,18 +174,23 @@ public class DigitalBank extends Bank {
 
           System.out.print("\nEnter transfer amount: ");
           double amount = Double.parseDouble(scanner.nextLine());
-          SavingsAccount sendingAccount = getSavingsAccountByID(inputAccount);
-          SavingsAccount receivingAccount = getSavingsAccountByID(receivingAcc);
-          sendingAccount.transfer(receivingAccount, amount);
-          break;
+          T sendingAccount = AccountDAO.getAccountById(inputAccount);
+          if (sendingAccount instanceof SavingsAccount e) {
+            e.transfer(receivingAcc, amount);
+            break;
+          } else {
+            System.out.println("Wrong type of account, please select another option");
+            continue;
+          }
         }
       }
     }
   }
 
-  private SavingsAccount getSavingsAccountByID(String inputAccount) {
-    return (SavingsAccount) accounts.stream().filter(e-> e.getClass().equals(SavingsAccount.class)).filter(e -> e.getAccountNumber().equals(inputAccount)).findFirst().orElse(null);
+  private static boolean isAccountExisted(String inputAccount) {
+    return AccountDAO.list().stream().anyMatch(e -> e.getAccountNumber().equals(inputAccount));
   }
+
 
   public void showTransactions() {
     TransactionDAO.list().forEach(System.out::println);
@@ -230,4 +199,6 @@ public class DigitalBank extends Bank {
   public void showAccounts() {
     accounts.forEach(System.out::println);
   }
+
+
 }
