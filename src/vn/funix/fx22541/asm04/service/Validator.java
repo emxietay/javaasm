@@ -68,9 +68,11 @@ public class Validator {
         } else throw new WithdrawAmountException("Not valid amount.");
     }
 
-    public static boolean validateSavingAmount(double amount) {
+    public static boolean validateSavingsWithdrawAmount(double amount) {
         if ((amount < 0) || (amount > SAVINGS_ACCOUNT_MAX_WITHDRAW) || (amount % 10_000 != 0)) {
-            throw new SavingAmountNotValidException("Not valid number");
+            throw new SavingsWithdrawAmountNotValidException("Not valid number");
         } else return true;
     }
+
+
 }

@@ -2,6 +2,8 @@ package vn.funix.fx22541.asm04.model;
 
 import vn.funix.fx22541.asm04.dao.AccountDAO;
 import vn.funix.fx22541.asm04.dao.TransactionDAO;
+import vn.funix.fx22541.asm04.exception.SavingsWithdrawAmountNotValidException;
+import vn.funix.fx22541.asm04.exception.TransferAmountNotValidException;
 import vn.funix.fx22541.asm04.service.*;
 
 import java.io.Serial;
@@ -24,9 +26,12 @@ public class SavingsAccount extends Account implements Withdraw, Report, Seriali
       balance -= amount;
       Transaction transaction = new Transaction(getAccountNumber(), -amount, isAccepted(amount), Transaction.TransactionType.WITHDRAW);
       TransactionDAO.update(transaction);
+      AccountDAO.update(this);
       log(amount);
+      return true;
+    } else {
+      throw new SavingsWithdrawAmountNotValidException("Not valid amount.");
     }
-    return false;
   }
 
   @Override
@@ -65,13 +70,14 @@ public class SavingsAccount extends Account implements Withdraw, Report, Seriali
     if (balance - amount >= 50_000 && amount > 10_000) {
       this.balance -= amount;
       Transaction transaction = new Transaction(accountNumber, -amount, true, Transaction.TransactionType.TRANSFER);
+      AccountDAO.update(this);
       TransactionDAO.update(transaction);
       logTransfer(amount, receivingAccountNumber);
       Account receivingAcc = AccountDAO.getAccountById(receivingAccountNumber);
       receivingAcc.addToBalance(amount);
       Transaction receivingAccountTransaction = new Transaction(receivingAccountNumber, amount, true, Transaction.TransactionType.TRANSFER);
       TransactionDAO.update(receivingAccountTransaction);
-    }
+    } else throw new TransferAmountNotValidException();
   }
 
   public void logTransfer(double amount, String receivingAccountNumber) {
@@ -80,7 +86,7 @@ public class SavingsAccount extends Account implements Withdraw, Report, Seriali
     System.out.printf("NGAY G/D: %28s%n", Utils.getDateTime());
     System.out.printf("ATM ID: %30s%n", "DIGITAL-BANK-ATM 2023");
     System.out.printf("SO TK: %31s%n", getAccountNumber());
-    System.out.printf("SO TK: %31s%n", receivingAccountNumber);
+    System.out.printf("SO TK NHAN TIEN: %21s%n", receivingAccountNumber);
     System.out.printf("SO TIEN CHUYEN: %22s%n", Utils.formatBalance(amount));
     System.out.printf("SO DU TAI KHOAN: %21s%n", Utils.formatBalance(getAccountBalance()));
     System.out.printf("PHI + VAT: %27s%n", 0);

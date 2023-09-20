@@ -26,6 +26,7 @@ public class Account implements Serializable {
     this.balance = balance;
     Transaction transaction = new Transaction(accountNumber, balance, true, Transaction.TransactionType.DEPOSIT);
     TransactionDAO.update(transaction);
+    AccountDAO.update(this);
   }
 
 
@@ -44,7 +45,7 @@ public class Account implements Serializable {
           if (Validator.validateAccountNumber(accountNumber)) {
             System.out.print("Please enter amount: ");
             double amount = Double.parseDouble(scanner.next());
-            if (Validator.validateSavingAmount(amount)) {
+            if (Validator.validateSavingsWithdrawAmount(amount)) {
               Account account = new Account(customerId, accountNumber, amount);
               Transaction transaction = createTransaction(amount, true, Transaction.TransactionType.DEPOSIT);
               AccountDAO.update(account);
@@ -113,6 +114,7 @@ public class Account implements Serializable {
   protected void addToBalance(double amount) {
     if (amount > 0) {
       balance += amount;
+      AccountDAO.update(this);
     }
   }
 

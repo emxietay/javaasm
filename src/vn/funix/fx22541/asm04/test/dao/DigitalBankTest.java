@@ -28,8 +28,7 @@ class DigitalBankTest {
 
     @Test
     void addCustomer() {
-//        digitalBank.addCustomer("123123123123", "Nam");
-//        assertNotNull(digitalBank.getCustomerById("123123123123"));
+digitalBank.addNewCustomer();
     }
 
     @Test
