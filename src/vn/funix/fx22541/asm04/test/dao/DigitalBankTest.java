@@ -3,11 +3,7 @@ package vn.funix.fx22541.asm04.test.dao;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import vn.funix.fx22541.asm04.dao.CustomerDAO;
 import vn.funix.fx22541.asm04.model.DigitalBank;
-import vn.funix.fx22541.asm04.model.DigitalCustomer;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class DigitalBankTest {
 
@@ -15,20 +11,16 @@ class DigitalBankTest {
     @BeforeEach
     void setUp() {
         digitalBank = new DigitalBank("VNN", "123");
-        digitalBank.importCustomers();
     }
 
     @AfterEach
     void tearDown() {
     }
 
-    @Test
-    void showCustomer() {
-    }
 
     @Test
-    void addCustomer() {
-digitalBank.addNewCustomer();
+    void canAddCustomer() {
+
     }
 
     @Test

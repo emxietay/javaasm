@@ -25,5 +25,6 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="assertj.core" level="project" />
+    <orderEntry type="library" name="br.objectos.core.concurrent" level="application" />
   </component>
 </module>

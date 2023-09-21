@@ -10,6 +10,7 @@ public class Validator {
     private static final double SAVINGS_ACCOUNT_MAX_WITHDRAW = 5000_000;
     public static final double SAVINGS_ACCOUNT_MIN_WITHDRAW = 50_000;
     public static final int MINIMUM_BALANCE_AFTER_WITHDRAW = 50000;
+    private static final double SAVINGS_ACCOUNT_MAX_AMOUNT = 200_000_000;
 
     public static boolean validateAccountNumber(String accountNumber) {
         if (!accountNumber.matches(ACC_NO_REGEX)) {
@@ -75,4 +76,9 @@ public class Validator {
     }
 
 
+    public static boolean validateSavingsAccountAmount(double amount) {
+        if ((amount < 0) || (amount > SAVINGS_ACCOUNT_MAX_AMOUNT) ) {
+            throw new SavingsWithdrawAmountNotValidException("Not valid number");
+        } else return true;
+    }
 }

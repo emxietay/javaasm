@@ -9,7 +9,12 @@ import vn.funix.fx22541.asm04.service.*;
 import java.io.Serial;
 import java.io.Serializable;
 
-public class SavingsAccount extends Account implements Withdraw, Report, Serializable, ITransfer {
+public class SavingsAccount extends Account implements Withdraw, Report, Serializable, ITransfer, Cloneable {
+
+
+
+
+
   @Serial
   private static final long serialVersionUID = 6L;
   private static final double SAVINGS_ACCOUNT_MAX_WITHDRAW = 5000000;
@@ -91,5 +96,11 @@ public class SavingsAccount extends Account implements Withdraw, Report, Seriali
     System.out.printf("SO DU TAI KHOAN: %21s%n", Utils.formatBalance(getAccountBalance()));
     System.out.printf("PHI + VAT: %27s%n", 0);
     System.out.println(Utils.getDivider());
+  }
+
+
+  @Override
+  public Object clone() throws CloneNotSupportedException {
+    return super.clone();
   }
 }

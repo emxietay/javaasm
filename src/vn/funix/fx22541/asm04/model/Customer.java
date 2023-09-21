@@ -31,27 +31,7 @@ public class Customer implements Serializable {
     return AccountDAO.list().stream().filter(e -> e.getCustomerId().equals(id)).toList();
   }
 
-  public static void main(String[] args) {
-    CustomerDAO.importCustomers();
 
-    SavingsAccount c1 = new SavingsAccount("001092009430", "111222", 9900000);
-    SavingsAccount c2 = new SavingsAccount("001092009430", "111223", 99000);
-    SavingsAccount c3 = new SavingsAccount("001092009430", "111224", 99000);
-    SavingsAccount c4 = new SavingsAccount("001092009430", "111225", 99000);
-    SavingsAccount c5 = new SavingsAccount("001092009430", "111226", 99000);
-    DigitalCustomer tam = new DigitalCustomer("001001999888", "Tam");
-    CustomerDAO.update(tam);
-    SavingsAccount c6 = new SavingsAccount("001001999888", "222111", 1_000_000);
-
-    AccountDAO.save(List.of(c1, c2, c3, c4, c5, c6));
-//    CustomerDAO.update(tam);
-
-    CustomerDAO.list().forEach(Customer::displayInformation);
-//    System.out.println(CustomerDAO.list().stream().count());
-//    System.out.println(AccountDAO.list().stream().count());
-    System.out.println(TransactionDAO.list().stream().count());
-    TransactionDAO.list().stream().forEach(System.out::println);
-  }
 
   @Override
   public String toString() {

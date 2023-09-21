@@ -24,9 +24,9 @@ public class Account implements Serializable {
     this.customerId = customerId;
     this.accountNumber = accountNumber;
     this.balance = balance;
-    Transaction transaction = new Transaction(accountNumber, balance, true, Transaction.TransactionType.DEPOSIT);
-    TransactionDAO.update(transaction);
-    AccountDAO.update(this);
+//    Transaction transaction = new Transaction(accountNumber, balance, true, Transaction.TransactionType.DEPOSIT);
+//    TransactionDAO.update(transaction);
+//    AccountDAO.update(this);
   }
 
 
@@ -111,7 +111,7 @@ public class Account implements Serializable {
     return "Account{" + "customerId='" + customerId + '\'' + ", accountNumber='" + accountNumber + '\'' + ", balance=" + balance + '}';
   }
 
-  protected void addToBalance(double amount) {
+  protected void addToBalance(double amount)  {
     if (amount > 0) {
       balance += amount;
       AccountDAO.update(this);
